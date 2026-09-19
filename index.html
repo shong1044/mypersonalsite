@@ -1,121 +1,535 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
   <head>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="一套可執行的個人收支記錄模型，搭配理財工具地圖與資金配置順序，目標是最大化可支配財富。">
     <link type="text/css" rel="stylesheet" href="style.css">
-    <title>Welcome to RED’s Site!!!</title>
+    <title>個人財務系統 — 收支模型與理財工具地圖</title>
   </head>
   <body>
     <div id="nav">
-      <button type="button" class="menu-button">
-      三
-      </button>
-      <input type="checkbox" class="menu-button-checkbox">
-      <ul class="menu">
-        <li><a href="#about">Who am I</a></li>
-        <li><a href="#my-work">My Work</a></li>
-        <li><a href="#contact-me">Contact me</a></li>
-      </ul>
+      <div class="nav-inner">
+        <span class="brand">個人財務系統</span>
+        <button type="button" class="menu-button">三</button>
+        <input type="checkbox" class="menu-button-checkbox" aria-label="開啟選單">
+        <ul class="menu">
+          <li><a href="#model">記帳模型</a></li>
+          <li><a href="#metrics">關鍵指標</a></li>
+          <li><a href="#ledger">記帳器</a></li>
+          <li><a href="#tools">工具地圖</a></li>
+          <li><a href="#waterfall">配置順序</a></li>
+          <li><a href="#calc">試算器</a></li>
+        </ul>
+      </div>
     </div>
+
     <div id="content">
-      <div class="container">
-        <div id="about">
-          <div id="my-avatar">
-          <img src="img/dada_001.jpg" alt="my avatar">
+
+      <!-- ===================== HERO ===================== -->
+      <div class="hero">
+        <h1>把「可支配財富」當成唯一北極星</h1>
+        <p class="lead">
+          記帳不是為了記帳，是為了讓每一塊錢都待在報酬最高的地方。
+          這一頁提供三件事：一個記錄模型、一組決策指標、一張理財工具地圖。
+        </p>
+        <div class="formula">
+          <b>ΔW</b> ＝ （收入 I − 支出 E） ＋ 既有資產 W × 稅後報酬率 r<sub>net</sub> − 稅負 T − 通膨侵蝕 W × i
+        </div>
+        <p class="hint">
+          這條式子決定了所有動作的優先順序：能動的槓桿只有四個 —— 提高 I、壓低 E、提高 r<sub>net</sub>、降低 T。
+          其中 <b>E 與 T 是立即、確定、無風險的報酬</b>，所以永遠先做；r 是有風險的，所以放最後。
+        </p>
+      </div>
+
+      <!-- ===================== 模型 ===================== -->
+      <div class="section" id="model">
+        <h1>一、記錄模型：三層帳本</h1>
+        <p class="lead">流水帳會讓人放棄，因為它只累積資料、不產生決策。改用三層結構，每一層各自回答一個問題。</p>
+
+        <div class="cards">
+          <div class="card">
+            <h3>L1 交易層 Transaction</h3>
+            <p>每一筆錢的移動。回答「錢去哪了」。<br>頻率：當天記，30 秒內完成。</p>
           </div>
-          <div id="my-info">
-            <h1>I am RED</h1>
-            <h3>Developer and startup entrepreneur</h3>
-            <hr>
-          <table>
-            <tr>
-              <th>Birth</th>
-              <td>1986</th>
-            </tr>
-            <tr>
-              <th>工作經驗</th>
-              <td>> 3 年，金融領域、網站開發、創業</td>
-            </tr>
-            <tr>
-              <th>開發技能</th>
-              <td>HTML, CSS, JavaScript, Ruby on Rails, MySQL, GCP</td>
-            </tr>
-            <tr>
-              <th>學習經歷</th>
-              <td>大航道計劃結業, 2018<br>ALPHA 大學結業, 2017</td>
-            </tr>
+          <div class="card">
+            <h3>L2 分類層 Allocation</h3>
+            <p>把交易壓縮成少數幾個桶。回答「結構是否健康」。<br>頻率：每月結算一次。</p>
+          </div>
+          <div class="card">
+            <h3>L3 資產層 Net Worth</h3>
+            <p>資產負債表快照。回答「我到底變有錢了嗎」。<br>頻率：每月 1 號拍一次快照。</p>
+          </div>
+        </div>
+
+        <h2>L1 交易層：欄位規格</h2>
+        <p class="hint">欄位只留「未來會拿來做決策」的。多一個欄位，就多一份放棄記帳的理由。</p>
+        <div class="table-wrap">
+          <table class="grid">
+            <thead>
+              <tr><th>欄位</th><th>型別 / 值域</th><th>為什麼需要它</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>date</code></td><td>YYYY-MM-DD</td><td>月結算、趨勢比較的基準。</td></tr>
+              <tr><td><code>type</code></td><td>income ／ expense ／ transfer</td><td><b>轉帳必須獨立</b>。把「投資」記成支出，是最常見的錯誤，會讓儲蓄率永遠難看。</td></tr>
+              <tr><td><code>amount</code></td><td>正數，記帳幣別</td><td>正負號由 type 決定，避免手殘輸錯。</td></tr>
+              <tr><td><code>account</code></td><td>現金／數位帳戶／信用卡／證券／退休金</td><td>對帳用。也是 L3 資產層的彙總鍵。</td></tr>
+              <tr><td><code>category</code></td><td>10～15 個，不要更多</td><td>分類超過 15 個，分類本身就變成一種消耗。</td></tr>
+              <tr><td><code>nature</code></td><td>fixed 固定 ／ variable 變動</td><td>固定支出是「未來 12 個月的負債」，砍一次省一整年。</td></tr>
+              <tr><td><code>purpose</code></td><td>need 必要 ／ want 想要 ／ invest 投資</td><td>唯一真正影響決策的欄位，見下方四象限。</td></tr>
+              <tr><td><code>note</code></td><td>自由文字</td><td>只寫「為什麼花」，不寫「花了什麼」。</td></tr>
+            </tbody>
           </table>
-          </div>
-          </div>
-        <hr class="bar">
-        <div id="my-work">
-          <h1>This is My Work</h1>
-          <div id="my-work-gallery">
-            <div class="item">
-              <img src="http://lorempixel.com/300/300/" alt="My Personal Site">
-              <div class="item-info">
-              <h3>我的個人網站</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              </p>
+        </div>
+
+        <h2>四象限：nature × purpose</h2>
+        <p class="hint">每個象限的處理手法完全不同 —— 這是整套模型的核心。</p>
+        <div class="table-wrap">
+          <table class="grid">
+            <thead>
+              <tr><th></th><th>必要 need</th><th>想要 want</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>固定 fixed</th>
+                <td><b>優化區</b><br>房租、保費、電信、通勤。<br><small>砍不掉，但可以「重新議價」。一年檢查一次，一次省一整年，報酬率最高。</small></td>
+                <td><b>止血區</b><br>訂閱制、健身房、月費會員。<br><small>最危險的一格：無痛扣款、無感消耗。每季全部列出，刪掉近 30 天沒用過的。</small></td>
+              </tr>
+              <tr>
+                <th>變動 variable</th>
+                <td><b>維持區</b><br>飲食、日用品、醫療。<br><small>設上限，不設細項。省這格的 CP 值最低，別在這裡耗意志力。</small></td>
+                <td><b>快樂區</b><br>旅遊、娛樂、嗜好。<br><small>不該砍到零。用固定預算包養它，花完為止，花的時候不愧疚。</small></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>L2 分類層：先發薪水給自己</h2>
+        <p class="hint">
+          比例是起點不是教條，依實際狀況調整；唯一不可動的原則是 <b>投資的錢在月初就轉走，而不是月底看剩多少</b>。
+        </p>
+        <div class="table-wrap">
+          <table class="grid">
+            <thead>
+              <tr><th>桶</th><th>參考比例</th><th>放在哪個帳戶</th><th>規則</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>生活必要</td><td>50%</td><td>主要活存（薪轉戶）</td><td>固定＋變動的 need 都從這出。</td></tr>
+              <tr><td>投資</td><td>20%</td><td>證券戶／退休金</td><td>發薪日隔天自動轉帳，不經過大腦。</td></tr>
+              <tr><td>緊急預備金</td><td>10%</td><td>獨立高利活存（不綁提款卡）</td><td>存滿 6 個月支出後，這 10% 直接併入投資桶。</td></tr>
+              <tr><td>自我成長</td><td>10%</td><td>主要活存</td><td>課程、書、證照、器材。這是報酬率最高、也最常被砍的一桶。</td></tr>
+              <tr><td>快樂</td><td>10%</td><td>一張獨立的簽帳卡</td><td>刷爆就停，不從別桶挪錢。</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>L3 資產層：每月一張快照</h2>
+        <p class="hint">記帳看的是流量，快照看的是存量。只有存量會騙不了人。</p>
+        <div class="formula">
+          淨資產 ＝ （現金 ＋ 投資市值 ＋ 退休金 ＋ 不動產）− （信用卡 ＋ 信貸 ＋ 房貸 ＋ 學貸）
+        </div>
+        <div class="note">
+          <b>記錄方式的實務建議：</b>L1 用手機記帳 App 或本頁的記帳器（資料存在你自己的瀏覽器）；
+          L2、L3 用一張試算表，一列一個月、一欄一個桶／科目，永遠不要開第二張表。
+          一年後你會得到 12 列資料 —— 那就是你的財務病歷。
+        </div>
+      </div>
+
+      <!-- ===================== 指標 ===================== -->
+      <div class="section" id="metrics">
+        <h1>二、六個指標，取代所有焦慮</h1>
+        <p class="lead">每月結算只需要算這六個數字。數字會告訴你下個月該修哪裡。</p>
+        <div class="table-wrap">
+          <table class="grid">
+            <thead>
+              <tr><th>指標</th><th>算法</th><th>參考值</th><th>它在警告什麼</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>儲蓄率</b></td>
+                <td>(收入 − 支出) ÷ 收入</td>
+                <td>≥ 20%，能到 40% 更好</td>
+                <td>最重要的單一指標。它同時決定你存多久、以及退休後要花多少。</td>
+              </tr>
+              <tr>
+                <td><b>固定支出比</b></td>
+                <td>固定支出 ÷ 收入</td>
+                <td>&lt; 50%</td>
+                <td>超過就是「收入被鎖死」，失業或減薪時完全沒有緩衝空間。</td>
+              </tr>
+              <tr>
+                <td><b>緊急金月數</b></td>
+                <td>流動現金 ÷ 月必要支出</td>
+                <td>上班族 6 個月<br>自由工作者 12 個月</td>
+                <td>不足時，任何意外都會變成高利率負債。</td>
+              </tr>
+              <tr>
+                <td><b>負債比</b></td>
+                <td>總負債 ÷ 總資產</td>
+                <td>&lt; 50%，且每月還款 &lt; 收入 35%</td>
+                <td>衡量你離「被迫賤賣資產」有多遠。</td>
+              </tr>
+              <tr>
+                <td><b>可支配財富 DW</b></td>
+                <td>淨資產 − 緊急預備金 − 未來 12 個月已承諾支出</td>
+                <td>逐月成長</td>
+                <td>真正能拿去投資、承擔風險的錢。<b>本頁要最大化的就是它。</b></td>
+              </tr>
+              <tr>
+                <td><b>財務自由度</b></td>
+                <td>被動收入 ÷ 月支出</td>
+                <td>1.0 ＝ 財務自由</td>
+                <td>把「有錢沒錢」這個模糊問題，變成一個百分比。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===================== 記帳器 ===================== -->
+      <div class="section" id="ledger">
+        <h1>三、記帳器</h1>
+        <p class="lead">
+          直接把上面的模型跑起來。資料只存在這台裝置的瀏覽器（localStorage），
+          不會上傳到任何地方；換裝置請用「匯出 CSV」帶走。
+        </p>
+
+        <div class="tool">
+          <form id="entry-form">
+            <div class="field-row">
+              <div class="field">
+                <label for="f-date">日期</label>
+                <input type="date" id="f-date" required>
+              </div>
+              <div class="field">
+                <label for="f-type">類型</label>
+                <select id="f-type">
+                  <option value="expense">支出</option>
+                  <option value="income">收入</option>
+                  <option value="transfer">轉帳／投入</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="f-account">帳戶</label>
+                <select id="f-account">
+                  <option value="現金">現金</option>
+                  <option value="數位帳戶">數位帳戶</option>
+                  <option value="薪轉戶">薪轉戶</option>
+                  <option value="信用卡">信用卡</option>
+                  <option value="證券戶">證券戶</option>
+                  <option value="退休金">退休金</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="f-amount">金額</label>
+                <input type="number" id="f-amount" min="0" step="1" placeholder="0" required>
+              </div>
+              <div class="field">
+                <label for="f-category">分類</label>
+                <select id="f-category"></select>
+              </div>
+              <div class="field">
+                <label for="f-nature">性質</label>
+                <select id="f-nature">
+                  <option value="variable">變動</option>
+                  <option value="fixed">固定</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="f-purpose">目的</label>
+                <select id="f-purpose">
+                  <option value="need">必要</option>
+                  <option value="want">想要</option>
+                  <option value="invest">投資</option>
+                </select>
+              </div>
+              <div class="field wide">
+                <label for="f-note">備註（寫「為什麼花」）</label>
+                <input type="text" id="f-note" placeholder="選填">
               </div>
             </div>
-            <div class="item">
-              <img src="http://lorempixel.com/300/300/" alt="My Personal Site">
-              <div class="item-info">
-              <h3>我的個人網站</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              </p>
-              </div>
-            </div>
-            <div class="item">
-              <img src="http://lorempixel.com/300/300/" alt="My Personal Site">
-              <div class="item-info">
-              <h3>我的個人網站</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              </p>
-              </div>
-            </div>
-            <div class="item">
-              <img src="http://lorempixel.com/300/300/" alt="My Personal Site">
-              <div class="item-info">
-              <h3>我的個人網站</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              </p>
-              </div>
-            </div>
-            <div class="item">
-              <img src="http://lorempixel.com/300/300/" alt="My Personal Site">
-              <div class="item-info">
-              <h3>我的個人網站</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              </p>
-              </div>
-            </div>
-          </div>
-          </div>
-          <hr class="bar">
-        <div id="contact-me">
-        <h1>Contact me</h1>
-        <form action="" class="contact-form">
-          <div class="form-row">
-            <label for="name">姓名</label>
-            <input id="name" name="name" type="text">
-          </div>
-          <div class="form-row">
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email">
-          </div>
-          <div class="form-row">
-          <label for="message">訊息</label>
-          <textarea name="message" id="message"></textarea>
-          </div>
-            <div class="form-row">
-            <button type="reset">重設</button>
-            <button type="sumbit">提交</button>
+            <div class="btn-row">
+              <button type="submit" class="btn primary">記一筆</button>
+              <button type="button" class="btn" id="btn-sample">載入範例資料</button>
+              <button type="button" class="btn" id="btn-export">匯出 CSV</button>
+              <label class="btn" for="file-import" style="display:inline-block;">匯入 CSV</label>
+              <input type="file" id="file-import" accept=".csv,text/csv" style="display:none;">
+              <button type="button" class="btn" id="btn-clear">清空全部</button>
             </div>
           </form>
         </div>
+
+        <h2>本月儀表板</h2>
+        <div class="btn-row">
+          <div class="field">
+            <label for="f-month">結算月份</label>
+            <input type="month" id="f-month">
+          </div>
+        </div>
+
+        <div class="cards" id="dashboard">
+          <div class="card"><h3>收入</h3><span class="kpi" id="kpi-income">—</span><p>本月總流入</p></div>
+          <div class="card"><h3>支出</h3><span class="kpi" id="kpi-expense">—</span><p>不含投資轉帳</p></div>
+          <div class="card"><h3>結餘</h3><span class="kpi" id="kpi-net">—</span><p>收入 − 支出</p></div>
+          <div class="card"><h3>儲蓄率</h3><span class="kpi" id="kpi-rate">—</span><p>目標 ≥ 20%</p></div>
+          <div class="card"><h3>固定支出比</h3><span class="kpi" id="kpi-fixed">—</span><p>目標 &lt; 50%</p></div>
+          <div class="card"><h3>想要佔比</h3><span class="kpi" id="kpi-want">—</span><p>止血區的警報器</p></div>
+        </div>
+
+        <h2>分類佔比</h2>
+        <div class="table-wrap">
+          <table class="grid" id="breakdown">
+            <thead>
+              <tr><th>分類</th><th>金額</th><th style="width:40%">佔支出比</th><th>筆數</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <p class="hint" id="breakdown-empty">尚無資料。先記一筆，或點「載入範例資料」看看長什麼樣。</p>
+
+        <h2>明細</h2>
+        <div class="table-wrap">
+          <table class="grid" id="entries">
+            <thead>
+              <tr><th>日期</th><th>類型</th><th>分類</th><th>帳戶</th><th>性質／目的</th><th>金額</th><th>備註</th><th></th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </div>
+
+      <!-- ===================== 工具地圖 ===================== -->
+      <div class="section" id="tools">
+        <h1>四、理財工具地圖</h1>
+        <p class="lead">
+          工具沒有好壞，只有「適不適合這筆錢的用途與期限」。先問這筆錢什麼時候要用，再決定放哪裡。
+        </p>
+
+        <h2>第 0 層：現金流增益（報酬最確定，先做）</h2>
+        <div class="table-wrap">
+          <table class="grid">
+            <thead>
+              <tr><th>工具</th><th>效果</th><th>注意</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>信用卡／行動支付回饋堆疊</td><td>日常消費 1～5% 的無風險回饋</td><td>只在原本就要花的品項上使用。為了回饋而消費是負報酬。</td></tr>
+              <tr><td>固定支出重新議價</td><td>電信、保險、房租、寬頻，一次省一整年</td><td>報酬率最高的一小時工作。一年做一次。</td></tr>
+              <tr><td>訂閱制稽核</td><td>刪掉近 30 天未使用的服務</td><td>對帳單搜尋「每月固定金額」即可全數抓出。</td></tr>
+              <tr><td>報稅扣除額</td><td>列舉 vs 標準扣除額擇優、保費／醫療／捐贈／房貸利息</td><td>少繳的稅 100% 進口袋，是稅後報酬率最高的一筆。</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>第 1 層：流動性（0～12 個月要用的錢）</h2>
+        <div class="table-wrap">
+          <table class="grid">
+            <thead>
+              <tr><th>工具</th><th>流動性</th><th>風險</th><th>適合的用途</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>數位銀行高利活存</td><td><span class="tag">即時</span></td><td>極低</td><td>緊急預備金主力。注意多數有「優利額度上限」與每月任務條件。</td></tr>
+              <tr><td>台幣定存（可分拆單）</td><td><span class="tag grey">中解息損失</span></td><td>極低</td><td>1 年內確定要用的大額，例如頭期款、學費。拆成多張小額單，解約只砍一張。</td></tr>
+              <tr><td>貨幣市場基金／類貨幣 ETF</td><td><span class="tag">T+1～2</span></td><td>低</td><td>閒置資金停泊站，接近短率且免綁條件。</td></tr>
+              <tr><td>短天期公債／票券</td><td><span class="tag">次級市場</span></td><td>低</td><td>金額較大、且想鎖定一段期間利率時。</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>第 2 層：防禦（先止血，再談成長）</h2>
+        <p class="hint">保險的功能是把「會毀掉資產負債表的低機率事件」轉移出去，不是拿來投資。</p>
+        <div class="table-wrap">
+          <table class="grid">
+            <thead>
+              <tr><th>工具</th><th>要解決的風險</th><th>原則</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>實支實付醫療險</td><td>自費醫材與療程</td><td>CP 值最高的一張。確認是否可副本理賠。</td></tr>
+              <tr><td>重大傷病／癌症險</td><td>長期療程造成的收入中斷</td><td>一次給付型優先，用途不受限。</td></tr>
+              <tr><td>定期壽險</td><td>有人依賴你的收入時的身故風險</td><td>保額抓「未清負債 ＋ 家人 5～10 年生活費」。無人依賴則不需要。</td></tr>
+              <tr><td>失能扶助險</td><td>最嚴重的情境：不能工作又需長期照護</td><td>比壽險更該買，卻最常被忽略。</td></tr>
+              <tr><td>第三人責任／汽機車險</td><td>對他人造成的巨額賠償</td><td>強制險額度遠遠不夠，一定要加保。</td></tr>
+              <tr><td class="amount-out">儲蓄型保單</td><td>—</td><td><b>不列入投資工具。</b>它把保障與投資綁在一起，兩邊效率都差，且前幾年解約必定虧損。要保障買定期險，要投資買 ETF。</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>第 3 層：稅務優惠與強制儲蓄（政府補貼的報酬）</h2>
+        <div class="table-wrap">
+          <table class="grid">
+            <thead>
+              <tr><th>工具</th><th>好處</th><th>代價</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>勞退自提（最高 6%）</td><td>提繳金額<b>不計入當年所得課稅</b>，等於立刻拿到等同邊際稅率的報酬；另有保證收益下限。</td><td>資金鎖到法定請領年齡。高稅率級距者效益最大。</td></tr>
+              <tr><td>儲蓄投資特別扣除額</td><td>台幣存款利息在額度內免稅</td><td>額度有限，超過部分併入所得。</td></tr>
+              <tr><td>保費／醫療／房貸利息列舉扣除</td><td>直接降低應稅所得</td><td>需與標準扣除額比較後擇優，並保留單據。</td></tr>
+              <tr><td>境內 vs 境外所得配置</td><td>兩者課稅方式不同，配置得當可降低整體稅負</td><td>規則與門檻會逐年調整，金額大時請找會計師試算。</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note">
+          稅制的級距、扣除額、門檻與利率<b>年年都在動</b>。上表寫的是「該去查哪些項目」，
+          實際數字請以財政部／國稅局當年度公告為準，金額大時務必找合格會計師或理財顧問試算。
+        </div>
+
+        <h2>第 4 層：核心投資（長期、無聊、不用管）</h2>
+        <div class="table-wrap">
+          <table class="grid">
+            <thead>
+              <tr><th>工具</th><th>角色</th><th>選擇重點</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>全球／美股大盤指數 ETF</td><td>報酬引擎</td><td>比較總費用率、追蹤誤差、規模。單一低成本標的就足夠，不需要收集。</td></tr>
+              <tr><td>台股市值型 ETF</td><td>本國曝險</td><td>留意高配息商品的「配息來自本金」與稅負影響。</td></tr>
+              <tr><td>公債／投資級債 ETF</td><td>波動緩衝</td><td>長債對利率敏感度高，不是「穩定」的同義詞。依持有期間選存續期。</td></tr>
+              <tr><td>定期定額自動扣款</td><td>執行機制</td><td>把決策自動化，是散戶唯一可靠的紀律來源。</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="hint">
+          核心部位的目標不是打敗市場，是<b>讓你能安穩持有十年</b>。股債比例的簡單起點：
+          能接受帳面腰斬就 90/10，會失眠就降到 60/40。會讓你半夜賣出的配置，再漂亮也是錯的。
+        </p>
+
+        <h2>第 5 層：衛星與槓桿（可選，上限 10～20%）</h2>
+        <div class="table-wrap">
+          <table class="grid">
+            <thead>
+              <tr><th>工具</th><th>使用前提</th><th>風險</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>個股／產業主題 ETF</td><td>你真的有資訊優勢</td><td>歸零風險。限制在總資產 10～20% 內，且虧光不影響生活。</td></tr>
+              <tr><td>房貸（自住）</td><td>長年期、相對低利的負債</td><td>是好槓桿，但月付金上限抓收入 30%。別用試算出的「最大可貸」當預算。</td></tr>
+              <tr><td>理財型房貸／信貸套利</td><td>投資稅後報酬率 &gt; 貸款利率</td><td>報酬不確定、利息確定。市場下跌時雙重打擊，不建議新手使用。</td></tr>
+              <tr><td>外匯／加密資產</td><td>純粹的投機部位</td><td>以「全部歸零也無所謂」的金額為上限。</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===================== 配置順序 ===================== -->
+      <div class="section" id="waterfall">
+        <h1>五、每一塊閒錢的去向：八步瀑布</h1>
+        <p class="lead">
+          決策原則只有一句：<b>把錢放到「稅後、風險調整後報酬率」最高的地方</b>。
+          還掉一筆 12% 的卡債，等於賺到無風險的 12% —— 沒有任何投資能穩定贏它。
+        </p>
+        <ol class="waterfall">
+          <li><b>備齊 1 個月的生活費當週轉金</b><span>先讓自己不會因為小意外就刷卡分期。</span></li>
+          <li><b>拿好公司提撥／補助這類「免費的錢」</b><span>任何有對等提撥或補貼的制度，一定要拿滿，這是 100% 的立即報酬。</span></li>
+          <li><b>清光年利率 &gt; 8% 的負債</b><span>卡債、循環利息、現金卡。用雪崩法：先殺利率最高的那筆。</span></li>
+          <li><b>把緊急預備金補到 6 個月</b><span>放高利活存，跟日常帳戶分開，不綁提款卡。</span></li>
+          <li><b>買齊第 2 層的防禦型保險</b><span>在資產長大之前，先讓它不會一夜歸零。</span></li>
+          <li><b>用滿稅務優惠額度</b><span>勞退自提等遞延課稅工具，效益等同你的邊際稅率。</span></li>
+          <li><b>核心投資定期定額</b><span>低成本指數化，自動扣款，然後不要再看它。</span></li>
+          <li><b>清 3～8% 的中利負債，剩餘才進衛星部位</b><span>房貸這類低利長債可不急著還；衛星部位永遠是最後一名。</span></li>
+        </ol>
+        <div class="note">
+          <b>唯一的例外：</b>第 1 步之前，如果有<b>催收中或即將違約</b>的債務，先處理它。信用瑕疵會讓你未來每一筆貸款都變貴，代價遠超過任何投資報酬。
+        </div>
+      </div>
+
+      <!-- ===================== 節奏 ===================== -->
+      <div class="section" id="rhythm">
+        <h1>六、執行節奏</h1>
+        <p class="lead">系統能不能活下來，取決於每次動作夠不夠短。把時間成本壓到最低。</p>
+        <div class="cards">
+          <div class="card">
+            <h3>每天 ｜ 30 秒</h3>
+            <ul class="checklist">
+              <li>記下今天的交易（L1）</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>每週 ｜ 5 分鐘</h3>
+            <ul class="checklist">
+              <li>對一次帳戶餘額</li>
+              <li>看「想要」花了多少</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>每月 ｜ 20 分鐘</h3>
+            <ul class="checklist">
+              <li>結算六個指標</li>
+              <li>拍淨資產快照（L3）</li>
+              <li>確認自動轉帳有執行</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>每季 ｜ 1 小時</h3>
+            <ul class="checklist">
+              <li>訂閱制稽核</li>
+              <li>檢查資產配置偏離</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>每年 ｜ 半天</h3>
+            <ul class="checklist">
+              <li>固定支出重新議價</li>
+              <li>保單檢視</li>
+              <li>報稅與扣除額試算</li>
+              <li>再平衡回目標比例</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== 試算器 ===================== -->
+      <div class="section" id="calc">
+        <h1>七、試算器</h1>
+        <p class="lead">
+          把儲蓄率換算成時間。這個數字通常比任何說教都有效。
+        </p>
+        <div class="tool">
+          <div class="field-row">
+            <div class="field">
+              <label for="c-monthly">每月投入金額</label>
+              <input type="number" id="c-monthly" value="20000" min="0" step="1000">
+            </div>
+            <div class="field">
+              <label for="c-initial">目前投資本金</label>
+              <input type="number" id="c-initial" value="300000" min="0" step="10000">
+            </div>
+            <div class="field">
+              <label for="c-return">年化報酬率 %</label>
+              <input type="number" id="c-return" value="6" step="0.5">
+            </div>
+            <div class="field">
+              <label for="c-years">投入年數</label>
+              <input type="number" id="c-years" value="20" min="1" step="1">
+            </div>
+            <div class="field">
+              <label for="c-expense">目前月支出</label>
+              <input type="number" id="c-expense" value="40000" min="0" step="1000">
+            </div>
+            <div class="field">
+              <label for="c-swr">提領率 %</label>
+              <input type="number" id="c-swr" value="4" step="0.25">
+            </div>
+          </div>
+          <div class="cards" style="margin-top:16px;">
+            <div class="card"><h3>期末資產</h3><span class="kpi" id="r-final">—</span><p id="r-breakdown">—</p></div>
+            <div class="card"><h3>財務自由目標</h3><span class="kpi" id="r-target">—</span><p>年支出 ÷ 提領率</p></div>
+            <div class="card"><h3>達標所需年數</h3><span class="kpi" id="r-years">—</span><p id="r-years-note">以目前投入速度推估</p></div>
+            <div class="card"><h3>期末被動收入 ／ 月</h3><span class="kpi" id="r-passive">—</span><p>期末資產 × 提領率 ÷ 12</p></div>
+          </div>
+          <p class="hint" style="margin-top:14px;">
+            試算使用名目報酬率、每月投入、每月複利。想看實質購買力，請把報酬率減去通膨（例如 6% − 2% ＝ 4%）再算一次。
+            提領率 4% 來自歷史回測，不是保證值。
+          </p>
+        </div>
+      </div>
+
+      <footer>
+        <p>
+          <b>免責聲明：</b>本頁為個人財務管理方法的整理，屬一般性資訊與教育內容，<b>不構成投資建議、稅務建議或任何金融商品的推介</b>。
+          所有稅制規定、利率、額度與商品條件會隨時間變動，實際決策前請查證當年度官方公告，並視情況諮詢合格的理財顧問、會計師或稅務專業人員。
+          投資有風險，過去績效不代表未來表現。
+        </p>
+        <p>記帳器的所有資料僅儲存於你自己的瀏覽器（localStorage），不會傳送到任何伺服器。清除瀏覽器資料將一併刪除，請定期匯出 CSV 備份。</p>
+      </footer>
     </div>
+
+    <script src="app.js"></script>
   </body>
 </html>
