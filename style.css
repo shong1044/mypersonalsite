@@ -1,9 +1,35 @@
+/* ===========================================================
+   個人財務系統 — 收支管理與理財工具
+   =========================================================== */
+
+:root {
+  --brand: #ff6600;
+  --brand-soft: #fff4ec;
+  --ink: #2f3337;
+  --ink-soft: #6b7177;
+  --line: #e4e7ea;
+  --bg: #ffffff;
+  --bg-alt: #fafbfc;
+  --good: #2e9e6b;
+  --bad: #d94f4f;
+}
+
 * {
   box-sizing: border-box;
 }
 
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang TC",
+               "Microsoft JhengHei", Helvetica, Arial, sans-serif;
+  line-height: 1.75;
+}
+
+/* ---------- 導覽列 ---------- */
 #nav {
-  background-color: #ff6600;
+  background-color: var(--brand);
   position: fixed;
   top: 0;
   left: 0;
@@ -11,258 +37,401 @@
   z-index: 100;
 }
 
-#content {
-  position: relative;
-  top: 78px;
-  padding: 15px;
-}
-
-#about {
-  padding: 78px 0;
-}
-
-#my-work {
-  padding: 78px 0;
-}
-
-#contact-me {
-  padding: 78px 0;
-}
-
-#my-avatar {
-  float: left;
-  margin-right: 20px;
-}
-
-#my-avatar img {
-  width: 200px;
-  height: 250px;
-}
-
-#my-work-gallery {
-    text-align: center;
-}
-
-form.contact-form {
-  width: 50%;
+.nav-inner {
+  max-width: 1000px;
   margin: 0 auto;
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
 }
 
-.container {
-  width: 100%;
-  margin: 0 auto;
-}
-
-.item {
-  position: relative;
-  max-width: 30%;
-  display: inline-block;
-  margin-bottom: 10px;
-}
-
-.item img {
-  width: 100%;
-}
-
-.item-info {
-  background-color: rgba(255,255,255,.8);   /* 背景半透明 */
-
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-
-  text-align: center;
-  padding: 25px 10px;
-
-  opacity: 0;
-}
-
-.item-info:hover {
-  opacity: 1;
-}
-
-.menu li {
-  display: inline-block;
-
-  width: 150px;
-  padding: 10px 0px;
-
-  border: 1px solid #fff;
-  border-radius: 8px;
-
-  list-style-type: none;
-  text-align: center;
-  background-color: #ff6600;
+.brand {
   color: #fff;
-}
-
-.form-row {
-  margin-bottom: 15px;
-}
-
-.form-row input, .form-row textarea {
-  border-radius: 3px;
-  width: 100%;
-  border: 1px solid #D6D9DC;
-  padding: 7px;
-}
-
-.form-row textarea {
-  resize: none;
-  height: 4em;
-}
-
-.form-row button {
-  border: none;
-  border-radius: 3px;
-  padding: 10px 15px;
-  cursor: pointer;
-}
-
-.form-row button[type="sumbit"] {
-  background-color: #5995DA;
-  color: #FFFFFF;
-}
-
-.form-row button:hover {
-  background-color: #76AEED;
-}
-
-.form-row button:active {
-  background-color: #407FC7;
+  font-weight: 700;
+  font-size: 16px;
 }
 
 .menu {
-  float: right;
-  margin-right: 10px;
+  list-style: none;
+  display: flex;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
 }
 
-a {
+.menu a {
   display: block;
   color: #fff;
   text-decoration: none;
-}
-
-li:hover  {
-  border: 1px solid #ff6600;
-  background-color: #fff;
-}
-
-li:hover a {
-  color: #ff6600;
-  font-weight: 800;
-}
-
-h1 {
-  margin-bottom: 20;
-  text-align: center;
-}
-
-#about h1 {
-  margin-bottom: 0;
-  margin-top: 0;
-  text-align: left;
-}
-
-h3 {
-  margin: 0;
-}
-
-table {
+  padding: 6px 12px;
+  border-radius: 6px;
   font-size: 14px;
-  text-align: left;
 }
 
-th, td {
-  vertical-align: top;
+.menu a:hover {
+  background-color: #fff;
+  color: var(--brand);
+  font-weight: 700;
 }
 
-td {
-  color: #666;
+.menu-button,
+.menu-button-checkbox {
+  display: none;
+}
+
+/* ---------- 版面 ---------- */
+#content {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 68px 15px 0;
+}
+
+.section {
+  padding: 38px 0;
+  border-bottom: 1px solid var(--line);
+  scroll-margin-top: 60px;
+}
+
+.section h1 {
+  font-size: 25px;
+  margin: 0 0 4px;
+}
+
+.section h2 {
+  font-size: 18px;
+  margin: 28px 0 8px;
+  border-left: 5px solid var(--brand);
   padding-left: 10px;
 }
 
-hr {
-  border: 0.5px solid #eee;
+.section h3 {
+  font-size: 15px;
+  margin: 18px 0 4px;
 }
 
-hr.bar {
-  border: 2px solid #ff6600;
-  width: 120px;
+.lead {
+  color: var(--ink-soft);
+  margin-top: 0;
 }
 
-@media screen and (min-width: 1024px) {
-  .menu-button,
-  .menu-button-checkbox {
-    display: none;
-  }
+.hero {
+  background-color: var(--brand-soft);
+  border-radius: 10px;
+  padding: 26px;
+  margin: 24px 0 8px;
 }
 
+.hero h1 {
+  margin-top: 0;
+  font-size: 28px;
+}
+
+.formula {
+  background-color: #fff;
+  border: 1px dashed var(--brand);
+  border-radius: 6px;
+  padding: 12px 15px;
+  margin: 12px 0;
+  font-size: 15px;
+  overflow-x: auto;
+}
+
+.formula b { color: var(--brand); }
+
+/* ---------- 表格 ---------- */
+.table-wrap { overflow-x: auto; }
+
+.grid {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.grid th,
+.grid td {
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.grid thead th {
+  background-color: var(--brand);
+  color: #fff;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.grid tbody tr:nth-child(even) { background-color: var(--bg-alt); }
+
+.grid td small { color: var(--ink-soft); }
+
+code {
+  background-color: #f1f3f5;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 13px;
+  font-family: "SF Mono", Consolas, Menlo, monospace;
+}
+
+/* ---------- 卡片 ---------- */
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.card {
+  flex: 1 1 190px;
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--brand);
+  border-radius: 6px;
+  padding: 14px;
+  background-color: #fff;
+}
+
+.card h3 {
+  font-size: 14px;
+  margin: 0 0 4px;
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+.card p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.kpi {
+  font-size: 23px;
+  font-weight: 700;
+  display: block;
+  line-height: 1.3;
+}
+
+.kpi.good { color: var(--good); }
+.kpi.bad  { color: var(--bad); }
+
+/* ---------- 資金瀑布 ---------- */
+.waterfall {
+  counter-reset: step;
+  list-style: none;
+  padding-left: 0;
+  margin-left: 16px;
+}
+
+.waterfall li {
+  counter-increment: step;
+  position: relative;
+  padding: 8px 8px 8px 44px;
+  border-left: 2px solid var(--brand);
+}
+
+.waterfall li::before {
+  content: counter(step);
+  position: absolute;
+  left: -16px;
+  top: 12px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--brand);
+  color: #fff;
+  text-align: center;
+  line-height: 30px;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.waterfall b { display: block; }
+.waterfall span { font-size: 13px; color: var(--ink-soft); }
+
+/* ---------- 工具區 ---------- */
+.tool {
+  background-color: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px;
+  margin-top: 14px;
+}
+
+.field-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.field {
+  flex: 1 1 130px;
+  max-width: 230px;
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+}
+
+.field.wide {
+  flex: 2 1 200px;
+  max-width: none;
+}
+
+.field label {
+  margin-bottom: 3px;
+  color: var(--ink-soft);
+}
+
+.field input,
+.field select {
+  border: 1px solid #D6D9DC;
+  border-radius: 3px;
+  padding: 7px;
+  font-size: 14px;
+  width: 100%;
+  background-color: #fff;
+}
+
+.btn {
+  border: none;
+  border-radius: 3px;
+  padding: 9px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  background-color: #eceff1;
+  color: var(--ink);
+}
+
+.btn:hover { background-color: #dde2e6; }
+.btn.primary { background-color: var(--brand); color: #fff; }
+.btn.primary:hover { background-color: #ff8533; }
+
+.btn-row {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.bar-track {
+  background-color: #eceff1;
+  border-radius: 3px;
+  height: 9px;
+  overflow: hidden;
+  min-width: 90px;
+}
+
+.bar-fill {
+  background-color: var(--brand);
+  height: 100%;
+}
+
+.amount-in  { color: var(--good); white-space: nowrap; }
+.amount-out { color: var(--bad);  white-space: nowrap; }
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--bad);
+  cursor: pointer;
+  font-size: 13px;
+  padding: 0;
+}
+
+.hint { font-size: 13px; color: var(--ink-soft); }
+
+.note {
+  background-color: #fffbe6;
+  border-left: 4px solid #f0c000;
+  padding: 12px 15px;
+  font-size: 13px;
+  border-radius: 0 6px 6px 0;
+  margin-top: 14px;
+}
+
+.checklist {
+  list-style: none;
+  padding-left: 0;
+  font-size: 14px;
+}
+
+.checklist li {
+  padding: 6px 0 6px 26px;
+  position: relative;
+  border-bottom: 1px dashed var(--line);
+}
+
+.checklist li::before {
+  content: "☐";
+  position: absolute;
+  left: 4px;
+  color: var(--brand);
+}
+
+.tag {
+  display: inline-block;
+  font-size: 12px;
+  padding: 0 7px;
+  border-radius: 10px;
+  background-color: var(--brand-soft);
+  color: var(--brand);
+  border: 1px solid var(--brand);
+  white-space: nowrap;
+}
+
+.tag.grey {
+  background-color: #f1f3f5;
+  color: var(--ink-soft);
+  border-color: var(--line);
+}
+
+footer {
+  padding: 24px 0 60px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+/* ---------- 手機版 ---------- */
 @media screen and (max-width: 1023px) {
+  .section { padding: 26px 0; }
 
-  .container {
-    width: auto;
-  }
-
-  .item {
-    max-width: 100%;
-  }
-
-  form.contact-form {
-    width: 80%;
-  }
-
-  #my-avatar {
-    width: 100%; 
-  }
-
-  #my-avatar img {
-    display: block;
-    margin: 5px auto;
-  }
+  .card { flex: 1 1 100%; }
 
   .menu-button {
-    float: right;
-    font-size: 25px;
+    display: block;
+    font-size: 24px;
     line-height: 40px;
-    color: white;
+    color: #fff;
     background: transparent;
-    padding: 0 15px;
+    padding: 0 12px;
     border: 0;
   }
 
   .menu-button-checkbox {
+    display: block;
     position: fixed;
-    top: 0;
+    top: 4px;
     right: 0;
-    width: 55px;
+    width: 52px;
     height: 40px;
     opacity: 0;
-  }
-
-  .menu-button-checkbox:checked ~ .menu {
-    display: block;
+    z-index: 101;
   }
 
   .menu {
     display: none;
-    margin-top: 0;
-    padding-left: 0;
+    flex-direction: column;
     position: fixed;
     right: 0;
-    top: 40px;
-    width: 150px;
-    height: 100%;
+    top: 48px;
+    width: 190px;
+    background-color: var(--brand);
+    padding: 6px;
+    gap: 2px;
   }
 
-  .menu li {
-    border: 0;
-    border-radius: 0;
-  }
-
-  /*
-    手機版的 css 都寫在這邊
-  */   
+  .menu-button-checkbox:checked ~ .menu { display: flex; }
 }
